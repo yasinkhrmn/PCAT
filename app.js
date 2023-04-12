@@ -21,10 +21,18 @@ app.use(express.json());
 
 // ROUTES
 app.get("/", async (req, res) => {
-    //res.sendFile(path.resolve(__dirname, "temp/index.html"));
     const photos = await Photo.find({});
     res.render("index", {
         photos,
+    });
+});
+
+app.get("/photos/:id", async (req, res) => {
+    //console.log(req.params.id);
+    //res.render("about");
+    const photo = await Photo.findById(req.params.id);
+    res.render("photo", {
+        photo,
     });
 });
 

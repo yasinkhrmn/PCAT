@@ -32,11 +32,12 @@ https://templatemo.com/tm-552-video-catalog
                         <div class="col-xl-8 col-lg-7">
                             <!-- Video description -->
                             <div class="tm-video-description-box">
-                                <h2 class="mb-5 tm-video-title">Mauris dapibus urna nec ipsum posuere</h2>
-                                <p class="mb-4">Cras dictum pretium est, et imperdiet ex. Fusce vitae vestibulum
-                                    ipsum. Maecenas ultricies ipsum a urna ullamcorper, id interdum est blandit.
-                                    Vivamus sit amet justo sed erat iaculis consequat. Nulla suscipit posuere lectus
-                                    ut venenatis. Proin sed orci eget tellus euismod vulputate eu eu arcu.</p>
+                                <h2 class="mb-5 tm-video-title">
+                                    <%= photo.title %>
+                                </h2>
+                                <p class="mb-4">
+                                    <%= photo.description %>
+                                </p>
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-5">
@@ -58,20 +59,6 @@ https://templatemo.com/tm-552-video-catalog
                 </main>
 
                 <%- include("partials/_footer") -%>
-                    <script>
-                        $(document).ready(function () {
-                            $('.tm-likes-box').click(function (e) {
-                                e.preventDefault();
-                                $(this).toggleClass('tm-liked');
-
-                                if ($(this).hasClass('tm-liked')) {
-                                    $('#tm-likes-count').html('486 likes');
-                                } else {
-                                    $('#tm-likes-count').html('485 likes');
-                                }
-                            });
-                        });
-                    </script>
                     </body>
 
                     </html>
