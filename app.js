@@ -4,8 +4,6 @@ const ejs = require("ejs");
 const fileUpload = require("express-fileupload");
 const methodOverride = require("method-override");
 
-const path = require("path");
-
 const photoController = require("./controllers/photoController");
 const pageController = require("./controllers/pageController");
 
@@ -33,7 +31,7 @@ app.delete("/photos/:id", photoController.deletePhoto);
 
 app.get("/about", pageController.getAboutPage);
 app.get("/add", pageController.getAddPage);
-app.get("/photos/edit/:id", pageController.getEdit);
+app.get("/photos/edit/:id", pageController.getEditPage);
 
 const port = 3000;
 
