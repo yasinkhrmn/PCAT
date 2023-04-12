@@ -1,8 +1,15 @@
 const express = require("express");
+const mongoose = require("mongoose");
+
 const ejs = require("ejs");
 const path = require("path");
 
+const Photo = require("./models/Photo");
+
 const app = express();
+
+// CONNECT TO DB
+mongoose.connect("mongodb://127.0.0.1:27017/test");
 
 // TEMPLATE ENGINE
 app.set("view engine", "ejs");
@@ -13,9 +20,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // ROUTES
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
     //res.sendFile(path.resolve(__dirname, "temp/index.html"));
-    res.render("index");
+    const photos = await Photo.find({});
+    res.render("index", {
+        photos,
+    });
 });
 
 app.get("/about", (req, res) => {
@@ -26,8 +36,8 @@ app.get("/add", (req, res) => {
     res.render("add");
 });
 
-app.post("/photos", (req, res) => {
-    console.log(req.body);
+app.post("/photos", async (req, res) => {
+    await Photo.create(req.body);
     res.redirect("/");
 });
 
