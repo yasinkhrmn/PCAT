@@ -1,8 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
 const ejs = require("ejs");
+const fileUpload = require("express-fileupload");
+
 const path = require("path");
+const fs = require("fs");
 
 const Photo = require("./models/Photo");
 
@@ -18,6 +20,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(fileUpload());
 
 // ROUTES
 app.get("/", async (req, res) => {
@@ -28,8 +31,6 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/photos/:id", async (req, res) => {
-    //console.log(req.params.id);
-    //res.render("about");
     const photo = await Photo.findById(req.params.id);
     res.render("photo", {
         photo,
@@ -45,8 +46,22 @@ app.get("/add", (req, res) => {
 });
 
 app.post("/photos", async (req, res) => {
-    await Photo.create(req.body);
-    res.redirect("/");
+    const uploadedDir = "public/uploads";
+
+    if (!fs.existsSync(uploadedDir)) {
+        fs.mkdirSync(uploadedDir);
+    }
+
+    const uploadedImage = req.files.image;
+    const uploadedPath = __dirname + "/public/uploads/" + uploadedImage.name;
+
+    uploadedImage.mv(uploadedPath, async () => {
+        await Photo.create({
+            ...req.body,
+            image: "/uploads/" + uploadedImage.name,
+        });
+        res.redirect("/");
+    });
 });
 
 const port = 3000;
